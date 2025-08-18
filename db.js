@@ -16,7 +16,7 @@ async function createUser(userData) {
     // Inserir na tabela user
     const userRes = await client.query(
       `INSERT INTO "users" 
-       (firstname, lastname, username, password, email, "userStatus")
+       (first_name, last_name, username, password, email, "user_status")
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING id`,
       [
@@ -35,7 +35,7 @@ async function createUser(userData) {
     if (userData.address || userData.phone) {
       await client.query(
         `INSERT INTO user_details
-         (address, "dateOfBirth", country, "postalCode", phone, "alternativeEmail", "documentId", "userId")
+         (address, "date_of_birth", country, "postal_code", phone, "alternative_email", "document_id", "user_id")
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
         [
           userData.address || '',
