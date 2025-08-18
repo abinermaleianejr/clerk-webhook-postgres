@@ -29,6 +29,8 @@ async function createUser(userData) {
       ]
     );
 
+
+    
     const userId = userRes.rows[0].id;
 
     // Inserir na userdetails se existirem dados
