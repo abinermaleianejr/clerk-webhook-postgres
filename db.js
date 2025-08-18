@@ -3,8 +3,8 @@ const { databaseUrl } = require('./config');
 
 // Configuração do pool de conexões
 const pool = new Pool({
-  connectionString: "postgresql://company_db_r9xu_user:8YDLL4rGtk6X4xY9lvxNwzk9BvNMPY7Z@dpg-d2f0mqk9c44c739gq0n0-a.oregon-postgres.render.com/company_db_r9xu",
-  ssl: process.env.APP_ENV === 'production' ? { rejectUnauthorized: false } : false,
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
 });
 
 async function createUser(userData) {

@@ -2,9 +2,24 @@ const express = require('express');
 const { Webhook } = require('svix');
 const { clerkWebhookSecret } = require('./config');
 const { createUser } = require('./db');
+const { Pool } = require('pg');
 
 const app = express();
 app.use(express.json());
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+});
+
+(async () => {
+  try {
+    const res = await pool.query('SELECT NOW()');
+    console.log('Conexão OK:', res.rows);
+    await pool.end();
+  } catch (err) {
+    console.error('Erro na conexão com PostgreSQL:', err);
+  }
+})();
 
 app.post('/webhook', async (req, res) => {
   const headers = req.headers;
@@ -48,6 +63,8 @@ app.post('/webhook', async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 });
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
