@@ -9,8 +9,9 @@ app.use(express.json());
 app.post('/webhook', async (req, res) => {
   const headers = req.headers;
   const payload = req.body;
+  console.log({headers, payload})
   
-  try {
+  try {   
     // Verificar assinatura do webhook
     const wh = new Webhook(clerkWebhookSecret);
     const evt = wh.verify(JSON.stringify(payload), {
