@@ -9,6 +9,7 @@ const pool = new Pool({
 
 async function createUser(userData) {
   const client = await pool.connect();
+  console.log("conected", client);
   try {
     await client.query('BEGIN');
     
