@@ -16,8 +16,8 @@ async function createUser(userData) {
     // Inserir na tabela user
     const userRes = await client.query(
       `INSERT INTO "users" 
-       (first_name, last_name, username, password, email, "user_status")
-       VALUES ($1, $2, $3, $4, $5, $6)
+       (first_name, last_name, username, password, email, "user_status", id)
+       VALUES ($1, $2, $3, $4, $5, $6,$7 )
        RETURNING id`,
       [
         userData.firstName,
@@ -25,13 +25,14 @@ async function createUser(userData) {
         userData.username || userData.email.split('@')[0],
         'clerk_placeholder',
         userData.email,
-        1 // userStatus ativo
+        1, // userStatus ativo
+        userData.userId
       ]
     );
 
 
     
-    const userId = userRes.rows[0].id;
+    
 
     // Inserir na userdetails se existirem dados
     if (userData.address || userData.phone) {
@@ -47,13 +48,13 @@ async function createUser(userData) {
           userData.phone || '',
           userData.alternativeEmail || null,
           userData.documentId || '',
-          userId
+           userData.userId
         ]
       );
     }
 
     await client.query('COMMIT');
-    return userId;
+    return userData.userId;
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Database Error:', err);
