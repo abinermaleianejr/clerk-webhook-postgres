@@ -42,7 +42,7 @@ app.post('/webhook', async (req, res) => {
         : '';
 
       const userData = {
-        userId: evt.data.id,
+        clerkId: evt.data.id,
         firstName: evt.data.first_name || '',
         lastName: evt.data.last_name || '',
         email,
