@@ -25,10 +25,11 @@ async function createUser(userData) {
         userData.username || userData.email.split('@')[0],
         'clerk_placeholder',
         userData.email,
-        1, // userStatus ativo
-        userData.userId
+        1 ,
+        userData.clerk_id
       ]
     );
+    const userId = userRes.rows[0].id;
 
 
     
@@ -48,13 +49,13 @@ async function createUser(userData) {
           userData.phone || '',
           userData.alternativeEmail || null,
           userData.documentId || '',
-           userData.userId
+           userId
         ]
       );
     }
 
     await client.query('COMMIT');
-    return userData.userId;
+    return userId;
   } catch (err) {
     await client.query('ROLLBACK');
     console.error('Database Error:', err);
