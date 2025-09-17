@@ -26,7 +26,7 @@ async function createUser(userData) {
         'clerk_placeholder',
         userData.email,
         1 ,
-        userData.clerk_id
+        userData.clerkId
       ]
     );
     const userId = userRes.rows[0].id;
