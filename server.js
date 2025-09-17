@@ -42,8 +42,9 @@ app.post('/webhook', async (req, res) => {
         : '';
 
       const userData = {
-        firstName: evt.data.first_name,
-        lastName: evt.data.last_name,
+        userId: evt.data.id,
+        firstName: evt.data.first_name || '',
+        lastName: evt.data.last_name || '',
         email,
         phone: evt.data.phone_numbers[0]?.phone_number || '',
         // Mapear outros campos do Clerk para suas tabelas
